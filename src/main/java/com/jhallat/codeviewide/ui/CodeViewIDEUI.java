@@ -11,7 +11,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.jhallat.codeviewide.model.ClassModel;
-import com.jhallat.codeviewide.model.Project;
+import com.jhallat.codeviewide.ui.project.NewProjectDialog;
+import com.jhallat.codeviewide.ui.project.Project;
+import com.jhallat.codeviewide.ui.project.ProjectPane;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

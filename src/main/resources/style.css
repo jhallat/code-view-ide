@@ -1,0 +1,23 @@
+.button-bar {
+	-fx-padding: 6px;
+}
+
+.dialog-button {
+	-fx-pref-width: 100px;
+	-fx-pref-height: 30px;
+}
+
+.dialog-grid {
+	-fx-hgap: 6px;
+	-fx-vgap: 6px;
+}
+
+.code-pane {
+	-fx-padding: 6px;
+}
+
+.project-heading {
+	-fx-padding: 3px;
+	-fx-background-color: #43867D;
+	-fx-text-fill: white;
+}

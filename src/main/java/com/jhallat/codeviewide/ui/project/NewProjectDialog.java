@@ -1,8 +1,6 @@
-package com.jhallat.codeviewide.ui;
+package com.jhallat.codeviewide.ui.project;
 
 import java.io.File;
-
-import com.jhallat.codeviewide.model.Project;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

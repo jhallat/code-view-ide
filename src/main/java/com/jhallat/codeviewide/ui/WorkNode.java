@@ -5,5 +5,5 @@ import javafx.scene.Node;
 public interface WorkNode {
 
 	Node createNode(BuildPath buildPath);
-	
+	String getDescription();
 }

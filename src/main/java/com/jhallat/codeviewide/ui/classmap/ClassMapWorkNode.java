@@ -16,6 +16,11 @@ public class ClassMapWorkNode implements WorkNode {
 	private VBox mapContents = new VBox();
 	
 	@Override
+	public String getDescription() {
+		return "not implemented";
+	}
+	
+	@Override
 	public Node createNode(BuildPath buildPath) {
 
 		SourcePane sourceLayout = new SourcePane(buildPath);
