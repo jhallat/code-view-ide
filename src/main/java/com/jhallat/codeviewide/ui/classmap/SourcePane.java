@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.jhallat.codeviewide.model.ClassModel;
-import com.jhallat.codeviewide.ui.BuildPath;
 import com.jhallat.codeviewide.ui.SelectClassDialogBuilder;
+import com.jhallat.codeviewide.ui.project.BuildPath;
 
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Hyperlink;

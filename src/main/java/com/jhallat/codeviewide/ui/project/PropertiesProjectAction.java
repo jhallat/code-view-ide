@@ -1,11 +1,15 @@
 package com.jhallat.codeviewide.ui.project;
 
+import com.jhallat.codeviewide.ui.CodeViewProperties;
+
 public class PropertiesProjectAction implements ProjectAction {
 
 	private final Project project;
+	private final CodeViewProperties properties;
 	
-	public PropertiesProjectAction(Project project) {
+	public PropertiesProjectAction(CodeViewProperties properties, Project project) {
 		this.project = project;
+		this.properties = properties;
 	}
 	
 	@Override
@@ -16,7 +20,7 @@ public class PropertiesProjectAction implements ProjectAction {
 	@Override
 	public void onDoubleClick() {
 		
-		PropertiesWorkNode propertyWorkNode = new PropertiesWorkNode(project);
+		PropertiesWorkNode propertyWorkNode = new PropertiesWorkNode(properties, project);
 		project.displayWorkNode(propertyWorkNode);
 		
 	}

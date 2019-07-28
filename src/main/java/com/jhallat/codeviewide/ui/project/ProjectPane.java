@@ -1,36 +1,35 @@
 package com.jhallat.codeviewide.ui.project;
 
-import com.jhallat.codeviewide.ui.BuildPath;
 import com.jhallat.codeviewide.ui.WorkNode;
-import com.jhallat.codeviewide.ui.classmap.ClassMapWorkNode;
 
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 public class ProjectPane extends BorderPane implements WorkNodeListener {
 
 	private TabPane tabPane = new TabPane();
 	private TreeView<ProjectAction> projectTree = new TreeView<>();
-	private final BuildPath buildPath;
 	
-	
-	public ProjectPane(Project project, BuildPath buildPath) {
+	public ProjectPane(Project project) {
 		super();
-		this.buildPath = buildPath;
 		project.addWorkNodeListener(this);
 		
 		SplitPane projectSplitPane = new SplitPane();
 		
-		Label projectNameLabel = new Label(project.getDirectory().getPath());
-		projectNameLabel.getStyleClass().add("project-heading");
-		this.setTop(projectNameLabel);
+		ProjectDescriptor projectDescriptor = project.getDescriptor();
+		Label projectNameLabel = new Label(projectDescriptor.getDirectory());
+		projectNameLabel.getStyleClass().add("project-heading-label");
+		HBox heading = new HBox();
+		heading.getStyleClass().add("project-heading");
+		heading.getChildren().add(projectNameLabel);
+
+		this.setTop(heading);
 		
 		initializeTreeView(project);
 		projectSplitPane.getItems().addAll(projectTree, tabPane);
@@ -60,17 +59,11 @@ public class ProjectPane extends BorderPane implements WorkNodeListener {
 		}
 		
 	}
-	
-	//private void addWorkNode(WorkNode workNode) {
-	//	Tab tab = new Tab("class map");
-	//	tab.setContent(workNode.createNode(buildPath));
-	//	tabPane.getTabs().add(tab);
-	//}
 
 	@Override
 	public void workNodeOpened(WorkNode workNode) {
 		Tab tab = new Tab(workNode.getDescription());
-		tab.setContent(workNode.createNode(buildPath));
+		tab.setContent(workNode.createNode());
 		tabPane.getTabs().add(tab);
 	}
 

@@ -21,6 +21,7 @@ public class ProjectActionCellFactory implements Callback<TreeView<ProjectAction
 				}
 			}
 		};
+		cell.getStyleClass().add("tree-table-row-cell");
 		cell.setOnMouseClicked(event -> {
 			if (event.getClickCount() == 2) {
 				cell.getItem().onDoubleClick();

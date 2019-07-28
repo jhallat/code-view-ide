@@ -37,3 +37,4 @@ local.properties
 *.launch
 
 application.properties
+codeview.properties

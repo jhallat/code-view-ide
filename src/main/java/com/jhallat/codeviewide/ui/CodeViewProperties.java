@@ -6,16 +6,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ApplicationProperties {
+public class CodeViewProperties {
 
-	private static final String APPLICATION_PROPERTIES = "application.properties";
+	public static final String LAST_PROJECT_DIRECTORY = "last.project";
+	
+	private static final String APPLICATION_PROPERTIES = "codeview.properties";
 	private Properties applicationProperties = new Properties();
 	private boolean loaded;
-	private static ApplicationProperties singleton = new ApplicationProperties();
+	private static CodeViewProperties singleton = new CodeViewProperties();
 	
-	private ApplicationProperties() {}
+	private CodeViewProperties() {}
 	
-	public static ApplicationProperties getInstance() {
+	public static CodeViewProperties getInstance() {
 		return singleton;
 	}
 	

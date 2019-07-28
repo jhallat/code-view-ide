@@ -1,7 +1,7 @@
 package com.jhallat.codeviewide.ui.classmap;
 
-import com.jhallat.codeviewide.ui.BuildPath;
 import com.jhallat.codeviewide.ui.WorkNode;
+import com.jhallat.codeviewide.ui.project.Project;
 
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -14,6 +14,11 @@ import javafx.scene.layout.VBox;
 public class ClassMapWorkNode implements WorkNode {
 
 	private VBox mapContents = new VBox();
+	private Project project;
+	
+	public ClassMapWorkNode(Project project) {
+		this.project = project;
+	}
 	
 	@Override
 	public String getDescription() {
@@ -21,9 +26,9 @@ public class ClassMapWorkNode implements WorkNode {
 	}
 	
 	@Override
-	public Node createNode(BuildPath buildPath) {
+	public Node createNode() {
 
-		SourcePane sourceLayout = new SourcePane(buildPath);
+		SourcePane sourceLayout = new SourcePane(project.getBuildPath());
 		
 		BorderPane mapLayout = new BorderPane();
 		Label mapLabel = new Label("Map");
@@ -34,7 +39,7 @@ public class ClassMapWorkNode implements WorkNode {
 		TextArea codeText = new TextArea();
 		codeLayout.setCenter(codeText);
 		
-		TargetPane targetLayout = new TargetPane(buildPath);
+		TargetPane targetLayout = new TargetPane(project.getBuildPath());
 		targetLayout.addMapListener(new MapListener<ClassMethodDefinition>() {
 			@Override
 			public void itemMapped(ClassMethodDefinition source, ClassMethodDefinition target) {

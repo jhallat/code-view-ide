@@ -2,6 +2,8 @@ package com.jhallat.codeviewide.ui.project;
 
 import java.io.File;
 
+import com.jhallat.codeviewide.ui.CodeViewProperties;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
@@ -14,13 +16,11 @@ import javafx.scene.layout.Priority;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-public class NewProjectDialog extends Dialog<Project> {
+public class NewProjectDialog extends Dialog<ProjectModel> {
 
-	public NewProjectDialog(Stage owner) {
-		this(owner, null);
-	}
+	public static final String LAST_IMPORT_JAR_DIRECTORY_PROPERTY = "last.import.jar.directory";
 	
-	public NewProjectDialog(Stage owner, File lastDirectory) {
+	public NewProjectDialog(Stage owner, CodeViewProperties properties) {
 		super();
 		this.setTitle("New Project");
 		this.getDialogPane().getStylesheets().add("style.css");
@@ -36,6 +36,8 @@ public class NewProjectDialog extends Dialog<Project> {
 		Button browseButton = new Button("Browse");
 		browseButton.setOnAction(event -> {
 			DirectoryChooser directoryChooser = new DirectoryChooser();
+			String lastDirectoryName = properties.get(LAST_IMPORT_JAR_DIRECTORY_PROPERTY);
+			File lastDirectory = new File(lastDirectoryName);
 			if (lastDirectory != null && lastDirectory.exists() && lastDirectory.isDirectory()) {
 				directoryChooser.setInitialDirectory(lastDirectory);
 			}
@@ -57,13 +59,13 @@ public class NewProjectDialog extends Dialog<Project> {
 		Button addButton = new Button("Create Project");
 		addButton.getStyleClass().add("dialog-button");
 		addButton.setOnAction(event -> {
-			this.setResult(new Project(nameText.getText(), new File(folderText.getText())));
+			this.setResult(new ProjectModel(nameText.getText(), folderText.getText(), false));
 			this.close();
 		});
 		Button cancelButton = new Button("Cancel");
 		cancelButton.getStyleClass().add("dialog-button");
 		cancelButton.setOnAction(event -> {
-			this.setResult(new Project());
+			this.setResult(new ProjectModel("","", true));
 			this.close();			
 		});
 		HBox buttonBar = new HBox(6);

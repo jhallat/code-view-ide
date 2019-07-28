@@ -1,3 +1,27 @@
+.root {
+	-fx-base: #D1E6E3;
+	
+	-fx-focus-color: #778AAA;
+	-fx-highlight-color: #778AAA;
+    -fx-accent: #778AAA;
+
+	
+	/* -fx-background: #9FC6C1; */  
+	-fx-background: #D1E6E3;
+	
+    -fx-dark-text-color: #061939;
+    -fx-mid-text-color: #152D55;
+    -fx-light-text-color: white;
+    
+    -fx-color: -fx-base;
+    
+    /* -fx-cell-hover-color: #cce3f4; */
+    -fx-cell-hover-color: black;
+
+    /* -fx-cell-focus-inner-border: #85b9de; */
+    -fx-cell-focus-inner-border: #A7B5CC;
+}
+
 .button-bar {
 	-fx-padding: 6px;
 }
@@ -16,8 +40,25 @@
 	-fx-padding: 6px;
 }
 
-.project-heading {
+.project-heading-label {
 	-fx-padding: 3px;
 	-fx-background-color: #43867D;
 	-fx-text-fill: white;
 }
+
+.project-heading {
+	-fx-padding: 3px;
+	-fx-background-color: #43867D;
+}
+
+/* .tree-table-row-cell:selected {
+    -fx-background-color: #778AAA;
+    -fx-table-cell-border-color: #778AAA; 
+} */
+
+/* .menu-item:focused {
+     -fx-background-color: #778AAA;
+} */
+
+
+
