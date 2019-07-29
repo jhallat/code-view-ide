@@ -52,6 +52,7 @@ public class ProjectPane extends BorderPane implements WorkNodeListener {
 		
 		projectTree.setCellFactory(new ProjectActionCellFactory());
 		TreeItem<ProjectAction> root = new TreeItem<ProjectAction>(project.getRootProjectAction());
+		root.setExpanded(true);
 		projectTree.setRoot(root);
 		for (ProjectAction projectAction : project.getProjectActions()) {
 			TreeItem<ProjectAction> actionItem = new TreeItem<>(projectAction);

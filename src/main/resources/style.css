@@ -51,14 +51,9 @@
 	-fx-background-color: #43867D;
 }
 
-/* .tree-table-row-cell:selected {
-    -fx-background-color: #778AAA;
-    -fx-table-cell-border-color: #778AAA; 
-} */
-
-/* .menu-item:focused {
-     -fx-background-color: #778AAA;
-} */
+.method-form {
+	-fx-padding: 24px 0px 0px 0px;
+}
 
 
 

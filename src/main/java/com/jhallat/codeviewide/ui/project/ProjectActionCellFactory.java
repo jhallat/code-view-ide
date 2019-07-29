@@ -18,16 +18,18 @@ public class ProjectActionCellFactory implements Callback<TreeView<ProjectAction
 					setText(null);
 				} else {
 					setText(projectAction.getDescription());
+					if (projectAction.getClass() != null) {
+						this.setContextMenu(projectAction.getContextMenu());
+					}
 				}
 			}
 		};
-		cell.getStyleClass().add("tree-table-row-cell");
 		cell.setOnMouseClicked(event -> {
 			if (event.getClickCount() == 2) {
 				cell.getItem().onDoubleClick();
 			}
 		});
-		
+
 		return cell;
 	}
 

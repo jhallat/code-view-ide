@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.jhallat.codeviewide.classtemplate.ClassTemplatesAction;
 import com.jhallat.codeviewide.filesystem.Descriptor;
 import com.jhallat.codeviewide.filesystem.FileSystem;
 import com.jhallat.codeviewide.filesystem.SaveListener;
@@ -60,6 +61,7 @@ public class Project implements SaveListener {
 	}
 	
 	private void initializeActions() {
+		projectActions.add(new ClassTemplatesAction(this));
 		projectActions.add(new PropertiesProjectAction(properties, this));
 	}
 	
