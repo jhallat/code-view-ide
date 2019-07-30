@@ -55,5 +55,10 @@
 	-fx-padding: 24px 0px 0px 0px;
 }
 
+.method-preview {
+	-fx-background-color: #A2C9C4;
+	-fx-padding: 3px;
+}
+
 
 
