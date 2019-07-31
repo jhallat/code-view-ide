@@ -28,8 +28,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
-    
-    
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+        
    	compileOnly 'org.projectlombok:lombok:1.18.8'
 	annotationProcessor 'org.projectlombok:lombok:1.18.8'
 }

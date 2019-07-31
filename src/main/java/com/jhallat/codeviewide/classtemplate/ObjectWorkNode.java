@@ -1,6 +1,9 @@
 package com.jhallat.codeviewide.classtemplate;
 
 import com.jhallat.codeviewide.ui.WorkNode;
+import com.jhallat.codeviewide.ui.bindings.BindingModel;
+import com.jhallat.codeviewide.ui.bindings.BoundTextField;
+import com.jhallat.codeviewide.ui.bindings.InvalidBindingException;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -42,7 +45,13 @@ public class ObjectWorkNode implements WorkNode {
 		Button addMethodButton = new Button("New Method");
 		addMethodButton.getStyleClass().add("dialog-button");
 		addMethodButton.setOnAction(event -> {
-			Node methodPane = createMethodPane();
+			Node methodPane = new HBox();
+			try {
+				methodPane = createMethodPane();
+			} catch (InvalidBindingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			methodContentPane.getChildren().add(methodPane);
 		});
 		Button methodFromTemplateButton = new Button("Method From Template");
@@ -74,14 +83,19 @@ public class ObjectWorkNode implements WorkNode {
 		return heading;
 	}
 	
-	private Node createMethodPane() {
+	private Node createMethodPane() throws InvalidBindingException {
 
+		Label methodPreviewLabel = new Label("public void ()");
 		MethodModel model = new MethodModel();
+		BindingModel<MethodModel> bindingModel = new BindingModel<>(model);
+		bindingModel.setOnModified(event -> {
+			methodPreviewLabel.setText(createMethodPreviewHeading(model));
+		});
 		
 		BorderPane methodPane = new BorderPane();
 		methodPane.getStyleClass().add("method-form");
 
-		Label methodPreviewLabel = new Label("public void ()");
+
 		HBox methodPreview = new HBox(3);
 		methodPreview.getStyleClass().add("method-preview");
 		methodPreview.getChildren().add(methodPreviewLabel);
@@ -92,21 +106,23 @@ public class ObjectWorkNode implements WorkNode {
 		methodForm.setVgap(6);
 		
 		Label methodNameLabel = new Label("Name");
-		TextField methodNameText = new TextField();
-		methodNameText.setOnKeyReleased(event -> {
-			model.setName(methodNameText.getText());
-			methodPreviewLabel.setText(createMethodPreviewHeading(model));
-		});
+		BoundTextField methodNameText = new BoundTextField();
+		methodNameText.bindModel(bindingModel, "name");
+		//methodNameText.setOnKeyReleased(event -> {
+		//	model.setName(methodNameText.getText());
+		//	methodPreviewLabel.setText(createMethodPreviewHeading(model));
+		//});
 		
 		Label methodDescriptionLabel = new Label("Description");
 		TextArea methodDescriptionText = new TextArea();	
 		methodDescriptionText.setPrefRowCount(3);
 		Label returnLabel = new Label("Returns");
-		TextField returnText = new TextField();
-		returnText.setOnKeyReleased(event -> {
-			model.setReturnType(returnText.getText());
-			methodPreviewLabel.setText(createMethodPreviewHeading(model));
-		});
+		BoundTextField returnText = new BoundTextField();
+		returnText.bindModel(bindingModel, "returnType");
+		//returnText.setOnKeyReleased(event -> {
+		//	model.setReturnType(returnText.getText());
+		//	
+		//});
 		TextField returnDescriptionText = new TextField();
 
 		Label parametersLabel = new Label("Parameters");
