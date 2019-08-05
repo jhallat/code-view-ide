@@ -1,14 +1,15 @@
 package com.jhallat.codeviewide.classtemplate;
 
+
 import com.jhallat.codeviewide.ui.WorkNode;
-import com.jhallat.codeviewide.ui.bindings.BindingModel;
-import com.jhallat.codeviewide.ui.bindings.BoundTextField;
-import com.jhallat.codeviewide.ui.bindings.InvalidBindingException;
+import com.jhallat.codeviewide.ui.message.HotKeyMessage;
+import com.jhallat.codeviewide.ui.message.HotKeyMessageEvent;
+import com.jhallat.codeviewide.ui.project.Project;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -17,10 +18,17 @@ import javafx.scene.layout.VBox;
 
 public class ObjectWorkNode implements WorkNode {
 
+	private final Project project;
+	
+	public ObjectWorkNode(Project project) {
+		this.project = project;
+	}
+	
 	@Override
 	public Node createNode() {
 		
 		BorderPane objectPane = new BorderPane();
+
 		objectPane.getStyleClass().add("code-pane");
 		VBox objectContentPane = new VBox(6);
 		VBox methodContentPane = new VBox(3);
@@ -42,27 +50,44 @@ public class ObjectWorkNode implements WorkNode {
 		
 		HBox buttonBar = new HBox(6); 
 		buttonBar.getStyleClass().add("button-bar");
-		Button addMethodButton = new Button("New Method");
-		addMethodButton.getStyleClass().add("dialog-button");
-		addMethodButton.setOnAction(event -> {
-			Node methodPane = new HBox();
-			try {
-				methodPane = createMethodPane();
-			} catch (InvalidBindingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			methodContentPane.getChildren().add(methodPane);
-		});
-		Button methodFromTemplateButton = new Button("Method From Template");
-		methodFromTemplateButton.getStyleClass().add("dialog-button");
+
 		Button previewClassButton = new Button("Preview Class");
 		previewClassButton.getStyleClass().add("dialog-button");
-		buttonBar.getChildren().addAll(addMethodButton, methodFromTemplateButton, previewClassButton);
-		
-		objectContentPane.getChildren().addAll(classForm, methodContentPane, buttonBar);
+		Button addFeatureButton = new Button("Add Feature");
+		addFeatureButton.getStyleClass().add("dialog-button");
+		buttonBar.getChildren().addAll(previewClassButton, addFeatureButton);
+
+		HBox linkBar = new HBox();
+		Hyperlink newMethodLink = new Hyperlink("New Method (Ctrl+M)");
+		newMethodLink.setOnAction(event -> {
+			Node methodPane = new MethodPane(this.project, 0, new MethodModel());
+			methodContentPane.getChildren().add(methodPane);
+		});
+		Hyperlink methodFromTemplateLink = new Hyperlink("Method from Template (Ctrl+T)");
+		linkBar.getChildren().addAll(newMethodLink, methodFromTemplateLink);
+				
+		objectContentPane.getChildren().addAll(linkBar, classForm, methodContentPane, buttonBar);
 		
 		objectPane.setCenter(objectContentPane);
+		
+		objectPane.setOnKeyPressed(event -> {
+			if (event.isControlDown()) {
+				System.out.println(event.getCharacter());
+			}
+			System.out.println(event.getCharacter());
+		});
+		
+		project.getMessageEventBus().addReceiver(event -> {
+			switch (event.getType()) {
+			case HOT_KEY:
+				HotKeyMessageEvent hotKeyEvent = (HotKeyMessageEvent) event;
+				HotKeyMessage message = hotKeyEvent.getMessage();
+				if (message.getHotKey() == HotKeyMessage.HotKey.CTRL_M) {
+					Node methodPane = new MethodPane(this.project, 0, new MethodModel());
+					methodContentPane.getChildren().add(methodPane);
+				}
+			}
+		});
 		
 		return objectPane;
 	}
@@ -72,73 +97,7 @@ public class ObjectWorkNode implements WorkNode {
 		return "Object";
 	}
 	
-	private String createMethodPreviewHeading(MethodModel methodModel) {
-		
-		String returnType = "void";
-		if (methodModel.getReturnType() != null) {
-			returnType = methodModel.getReturnType();
-		}
-		
-		String heading = String.format("public %s %s()", returnType, methodModel.getName());
-		return heading;
-	}
-	
-	private Node createMethodPane() throws InvalidBindingException {
-
-		Label methodPreviewLabel = new Label("public void ()");
-		MethodModel model = new MethodModel();
-		BindingModel<MethodModel> bindingModel = new BindingModel<>(model);
-		bindingModel.setOnModified(event -> {
-			methodPreviewLabel.setText(createMethodPreviewHeading(model));
-		});
-		
-		BorderPane methodPane = new BorderPane();
-		methodPane.getStyleClass().add("method-form");
 
 
-		HBox methodPreview = new HBox(3);
-		methodPreview.getStyleClass().add("method-preview");
-		methodPreview.getChildren().add(methodPreviewLabel);
-		methodPane.setTop(methodPreview);
-		
-		GridPane methodForm = new GridPane();
-		methodForm.setHgap(6);
-		methodForm.setVgap(6);
-		
-		Label methodNameLabel = new Label("Name");
-		BoundTextField methodNameText = new BoundTextField();
-		methodNameText.bindModel(bindingModel, "name");
-		//methodNameText.setOnKeyReleased(event -> {
-		//	model.setName(methodNameText.getText());
-		//	methodPreviewLabel.setText(createMethodPreviewHeading(model));
-		//});
-		
-		Label methodDescriptionLabel = new Label("Description");
-		TextArea methodDescriptionText = new TextArea();	
-		methodDescriptionText.setPrefRowCount(3);
-		Label returnLabel = new Label("Returns");
-		BoundTextField returnText = new BoundTextField();
-		returnText.bindModel(bindingModel, "returnType");
-		//returnText.setOnKeyReleased(event -> {
-		//	model.setReturnType(returnText.getText());
-		//	
-		//});
-		TextField returnDescriptionText = new TextField();
 
-		Label parametersLabel = new Label("Parameters");
-		Button addParameterButton = new Button("Add Parameter");
-		
-		methodForm.add(methodDescriptionLabel, 0, 0);
-		methodForm.add(methodDescriptionText, 0, 1, 2, 3);
-		methodForm.add(methodNameLabel, 0, 4);
-		methodForm.add(methodNameText, 1, 4, 2, 1);
-		methodForm.add(returnLabel, 0, 5);
-		methodForm.add(returnText, 1, 5, 1, 1);
-		methodForm.add(returnDescriptionText, 2, 5, 2, 1);
-		methodForm.add(parametersLabel, 0, 6);
-		methodForm.add(addParameterButton, 0, 7);
-		methodPane.setCenter(methodForm);
-		
-		return methodPane;
-	}
 }

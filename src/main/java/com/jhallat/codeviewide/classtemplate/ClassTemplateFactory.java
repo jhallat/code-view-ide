@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.jhallat.codeviewide.ui.WorkNode;
+import com.jhallat.codeviewide.ui.message.MessageEventBus;
 import com.jhallat.codeviewide.ui.project.Project;
 
 
@@ -16,7 +17,7 @@ public class ClassTemplateFactory {
 	
 	public void loadForProject(Project project) {
 		
-		workNodeMap.put("Object", new ObjectWorkNode());
+		workNodeMap.put("Object", new ObjectWorkNode(project));
 		
 	}
 	

@@ -13,16 +13,18 @@ import java.util.TreeSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jhallat.codeviewide.filesystem.Savable;
 import com.jhallat.codeviewide.filesystem.SaveListener;
 import com.jhallat.codeviewide.model.ClassModel;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 class CoreBuildPath implements BuildPath, Savable {
 
 	private static final long serialVersionUID = -2503727952108586000L;
+	private static final Logger log = LoggerFactory.getLogger(CoreBuildPath.class); 
+	
 	private List<SaveListener> saveListeners = new ArrayList<>();
 	private Set<ClassModel> classModels = new TreeSet<>();
 	private List<String> loadedJars = new ArrayList<>(); 

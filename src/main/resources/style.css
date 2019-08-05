@@ -31,6 +31,11 @@
 	-fx-pref-height: 30px;
 }
 
+.dialog-button-large {
+	-fx-pref-width: 150px;
+	-fx-pref-height: 30px;
+}
+
 .dialog-grid {
 	-fx-hgap: 6px;
 	-fx-vgap: 6px;
@@ -55,10 +60,72 @@
 	-fx-padding: 24px 0px 0px 0px;
 }
 
+.method-content {
+	-fx-padding: 12px 0px 0px 0px;
+}
+
 .method-preview {
 	-fx-background-color: #A2C9C4;
 	-fx-padding: 3px;
 }
+
+.text-field-small {
+	-fx-pref-width: 100px;
+}
+
+.text-field-medium {
+	-fx-pref-width: 200px;
+}
+
+
+.text-field-large {
+	-fx-pref-width: 300px;
+}
+
+.text-field-1 {
+	-fx-pref-width: 50px;
+}
+
+.text-field-2 {
+	-fx-pref-width: 100px;
+}
+
+
+.text-field-3 {
+	-fx-pref-width: 150px;
+}
+
+.text-field-4 {
+	-fx-pref-width: 200px;
+}
+
+
+.text-field-5 {
+	-fx-pref-width: 250px;
+}
+
+.text-field-6 {
+	-fx-pref-width: 300px;
+}
+
+
+.text-field-7 {
+	-fx-pref-width: 350px;
+}
+
+.text-field-8 {
+	-fx-pref-width: 400px;
+}
+
+
+.text-field-9 {
+	-fx-pref-width: 450px;
+}
+
+.text-field-10 {
+	-fx-pref-width: 500px;
+}
+
 
 
 

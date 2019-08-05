@@ -10,11 +10,10 @@ import com.jhallat.codeviewide.filesystem.FileSystem;
 import com.jhallat.codeviewide.filesystem.SaveListener;
 import com.jhallat.codeviewide.ui.CodeViewProperties;
 import com.jhallat.codeviewide.ui.WorkNode;
+import com.jhallat.codeviewide.ui.message.MessageEventBus;
 
 import javafx.stage.Stage;
-import lombok.Data;
 
-@Data
 public class Project implements SaveListener {
 
 	private boolean isInitialized = false;
@@ -25,9 +24,10 @@ public class Project implements SaveListener {
 	private final Stage stage;
 	private final CodeViewProperties properties;
 	private final FileSystem fileSystem;
+	private final MessageEventBus eventBus;
 
 	
-	public Project(ProjectDescriptor projectDescriptor, FileSystem fileSystem, CodeViewProperties properties, Stage stage) {
+	public Project(ProjectDescriptor projectDescriptor, FileSystem fileSystem, CodeViewProperties properties, Stage stage, MessageEventBus eventBus) {
 		this.isInitialized = true;
 		this.projectDescriptor = projectDescriptor;
 		this.properties = properties;
@@ -35,6 +35,7 @@ public class Project implements SaveListener {
 		this.buildPath = new CoreBuildPath(projectDescriptor.getContext());
 		this.buildPath.addSaveListener(this);
 		this.fileSystem = fileSystem;
+		this.eventBus = eventBus;
 	}
 
 	public ProjectDescriptor getDescriptor() {
@@ -88,5 +89,11 @@ public class Project implements SaveListener {
 		buildPath.loadDescriptor(buildPathDescriptor);
 	}
 
+	public BuildPath getBuildPath() {
+		return this.buildPath;
+	}
 
+	public MessageEventBus getMessageEventBus() {
+		return this.eventBus;
+	}
 }

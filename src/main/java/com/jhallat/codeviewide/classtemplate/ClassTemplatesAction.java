@@ -2,6 +2,7 @@ package com.jhallat.codeviewide.classtemplate;
 
 import java.util.List;
 
+import com.jhallat.codeviewide.ui.message.MessageEventBus;
 import com.jhallat.codeviewide.ui.project.Project;
 import com.jhallat.codeviewide.ui.project.ProjectAction;
 
