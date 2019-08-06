@@ -2,6 +2,6 @@ package com.jhallat.codeviewide.ui.message;
 
 public enum MessageType {
 
-	HOT_KEY
+	DESCRIPTOR_MODIFIED, HOT_KEY
 	
 }

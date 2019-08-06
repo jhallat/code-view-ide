@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.jhallat.codeviewide.filesystem.Descriptor;
 
-public class BuildPathDescriptor implements Descriptor {
+public class BuildPathDescriptor extends Descriptor {
 
 	public static final String BUILD_PATH_IDENTIFIER = ".buildpath";
 	
@@ -31,5 +31,9 @@ public class BuildPathDescriptor implements Descriptor {
 	public List<String> getLoadedJars() {
 		return Collections.unmodifiableList(loadedJars);
 	}
+
 	
+	public String getType() {
+		return "Build Path";
+	}
 }

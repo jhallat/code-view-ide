@@ -2,6 +2,7 @@ package com.jhallat.codeviewide.ui.project;
 
 import java.io.File;
 
+import com.jhallat.codeviewide.filesystem.Descriptor;
 import com.jhallat.codeviewide.ui.CodeViewProperties;
 import com.jhallat.codeviewide.ui.WorkNode;
 
@@ -80,9 +81,8 @@ public class PropertiesWorkNode implements WorkNode {
 	}
 
 	@Override
-	public String getDescription() {
-		ProjectDescriptor descriptor = this.project.getDescriptor();
-		return "Properties: " + descriptor.getName();
+	public Descriptor getDescriptor() {
+		return this.project.getDescriptor();
 	}
 
 

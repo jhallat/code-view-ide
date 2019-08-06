@@ -7,7 +7,7 @@ public class MessageEventBus {
 
 	private List<MessageReceiver> receivers = new ArrayList<>();
 	
-	public void send(MessageEvent<?> messageEvent) {
+	public void send(MessageEvent messageEvent) {
 		
 		for (MessageReceiver receiver : receivers) {
 			receiver.onReceived(messageEvent);

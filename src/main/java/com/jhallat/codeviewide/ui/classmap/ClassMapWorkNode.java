@@ -1,5 +1,6 @@
 package com.jhallat.codeviewide.ui.classmap;
 
+import com.jhallat.codeviewide.filesystem.Descriptor;
 import com.jhallat.codeviewide.ui.WorkNode;
 import com.jhallat.codeviewide.ui.project.Project;
 
@@ -21,8 +22,25 @@ public class ClassMapWorkNode implements WorkNode {
 	}
 	
 	@Override
-	public String getDescription() {
-		return "not implemented";
+	public Descriptor getDescriptor() {
+		return new Descriptor() {
+
+			@Override
+			public String getContext() {
+				return "not implemented";
+			}
+
+			@Override
+			public String getIdentifier() {
+				return "not implemented";
+			}
+			
+			@Override
+			public String getType() {
+				return "Class Map";
+			}
+			
+		};
 	}
 	
 	@Override

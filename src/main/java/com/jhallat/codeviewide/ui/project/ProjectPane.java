@@ -1,5 +1,6 @@
 package com.jhallat.codeviewide.ui.project;
 
+import com.jhallat.codeviewide.filesystem.Descriptor;
 import com.jhallat.codeviewide.ui.WorkNode;
 
 import javafx.scene.control.Label;
@@ -15,9 +16,11 @@ public class ProjectPane extends BorderPane implements WorkNodeListener {
 
 	private TabPane tabPane = new TabPane();
 	private TreeView<ProjectAction> projectTree = new TreeView<>();
+	private final Project project;
 	
 	public ProjectPane(Project project) {
 		super();
+		this.project = project;
 		project.addWorkNodeListener(this);
 		
 		SplitPane projectSplitPane = new SplitPane();
@@ -35,17 +38,7 @@ public class ProjectPane extends BorderPane implements WorkNodeListener {
 		projectSplitPane.getItems().addAll(projectTree, tabPane);
 		projectSplitPane.setDividerPositions(0.25);
 		this.setCenter(projectSplitPane);
-		
-		//TOOD This should be handled in a factory
-		/* ContextMenu contextMenu = new ContextMenu();
-		MenuItem newMapItem = new MenuItem("New Class Map");
-		newMapItem.setOnAction(event -> {
-			//TODO Need a class dialog
-			WorkNode classMapWorkNode = new ClassMapWorkNode();
-			addWorkNode(classMapWorkNode);
-		}); 
-		contextMenu.getItems().add(newMapItem);
-		projectTree.setContextMenu(contextMenu); */
+
 	}
 	
 	private void initializeTreeView(Project project) {
@@ -63,7 +56,8 @@ public class ProjectPane extends BorderPane implements WorkNodeListener {
 
 	@Override
 	public void workNodeOpened(WorkNode workNode) {
-		Tab tab = new Tab(workNode.getDescription());
+		Descriptor descriptor = workNode.getDescriptor();
+		DescriptorTab tab = new DescriptorTab(descriptor);
 		tab.setContent(workNode.createNode());
 		tabPane.getTabs().add(tab);
 	}

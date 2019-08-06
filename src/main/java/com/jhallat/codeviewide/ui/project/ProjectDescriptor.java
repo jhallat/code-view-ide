@@ -2,7 +2,7 @@ package com.jhallat.codeviewide.ui.project;
 
 import com.jhallat.codeviewide.filesystem.Descriptor;
 
-public class ProjectDescriptor implements Descriptor {
+public class ProjectDescriptor extends Descriptor {
 
 	private static final long serialVersionUID = 6086660135327322611L;
 
@@ -30,5 +30,9 @@ public class ProjectDescriptor implements Descriptor {
 	
 	public String getDirectory() {
 		return this.directory;
+	}
+	
+	public String getType() {
+		return "Project";
 	}
 }

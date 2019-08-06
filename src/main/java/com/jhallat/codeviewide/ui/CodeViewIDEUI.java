@@ -3,8 +3,6 @@ package com.jhallat.codeviewide.ui;
 import java.util.Optional;
 
 import com.jhallat.codeviewide.filesystem.FileSystem;
-import com.jhallat.codeviewide.ui.message.HotKeyMessage;
-import com.jhallat.codeviewide.ui.message.HotKeyMessage.HotKey;
 import com.jhallat.codeviewide.ui.message.HotKeyMessageEvent;
 import com.jhallat.codeviewide.ui.message.MessageEventBus;
 import com.jhallat.codeviewide.ui.project.NewProjectDialog;
@@ -79,7 +77,7 @@ public class CodeViewIDEUI extends Application {
 
 		root.setTop(menuBar);
 
-		Scene scene = new Scene(root, 1200, 800);
+		Scene scene = new Scene(root, 1600, 1200);
 		scene.getStylesheets().add("style.css");
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
@@ -87,8 +85,7 @@ public class CodeViewIDEUI extends Application {
 			public void handle(KeyEvent event) {
 				final KeyCombination keyCombination = new KeyCodeCombination(KeyCode.M, KeyCombination.CONTROL_DOWN);
 				if (keyCombination.match(event)) {
-					HotKeyMessage hotKeyMessage = new HotKeyMessage(HotKey.CTRL_M);
-					eventBus.send(new HotKeyMessageEvent(hotKeyMessage));
+					eventBus.send(new HotKeyMessageEvent(HotKeyMessageEvent.HotKey.CTRL_M));
 				} 
 			}
 			

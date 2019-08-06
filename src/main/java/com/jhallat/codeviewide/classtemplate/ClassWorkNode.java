@@ -1,45 +1,67 @@
 package com.jhallat.codeviewide.classtemplate;
 
 
+import com.jhallat.codeviewide.filesystem.Descriptor;
 import com.jhallat.codeviewide.ui.WorkNode;
-import com.jhallat.codeviewide.ui.message.HotKeyMessage;
 import com.jhallat.codeviewide.ui.message.HotKeyMessageEvent;
 import com.jhallat.codeviewide.ui.project.Project;
 
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class ObjectWorkNode implements WorkNode {
+public class ClassWorkNode implements WorkNode {
 
 	private final Project project;
+	private final ClassDescriptor classDescriptor;
 	
-	public ObjectWorkNode(Project project) {
+	public ClassWorkNode(Project project) {
 		this.project = project;
+		this.classDescriptor = new ClassDescriptor();
+	}
+	
+	@Override
+	public Descriptor getDescriptor() {
+		return this.classDescriptor;
 	}
 	
 	@Override
 	public Node createNode() {
-		
+
+		SplitPane splitPane = new SplitPane();
 		BorderPane objectPane = new BorderPane();
 
 		objectPane.getStyleClass().add("code-pane");
 		VBox objectContentPane = new VBox(6);
 		VBox methodContentPane = new VBox(3);
+		ScrollPane methodScrollPane = new ScrollPane();
+		methodScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		methodScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		methodScrollPane.setContent(methodContentPane);
 		
 		GridPane classForm = new GridPane();
 		
 		Label packageLabel = new Label("Package");
 		TextField packageText = new TextField();
 		packageText.setPrefWidth(300);
+		packageText.setOnKeyReleased(event -> {
+			this.classDescriptor.setPackageName(packageText.getText());
+		});
 		Label classLabel = new Label("Class Name");
 		TextField classText = new TextField();
+		classText.setOnKeyReleased(event -> {
+			this.classDescriptor.setClassName(classText.getText());
+		});
 		classText.setPrefWidth(300);
 
 		classForm.getStyleClass().add("dialog-grid");
@@ -47,15 +69,6 @@ public class ObjectWorkNode implements WorkNode {
 		classForm.add(packageText, 1, 0);
 		classForm.add(classLabel, 0, 1);
 		classForm.add(classText, 1, 1);
-		
-		HBox buttonBar = new HBox(6); 
-		buttonBar.getStyleClass().add("button-bar");
-
-		Button previewClassButton = new Button("Preview Class");
-		previewClassButton.getStyleClass().add("dialog-button");
-		Button addFeatureButton = new Button("Add Feature");
-		addFeatureButton.getStyleClass().add("dialog-button");
-		buttonBar.getChildren().addAll(previewClassButton, addFeatureButton);
 
 		HBox linkBar = new HBox();
 		Hyperlink newMethodLink = new Hyperlink("New Method (Ctrl+M)");
@@ -64,9 +77,10 @@ public class ObjectWorkNode implements WorkNode {
 			methodContentPane.getChildren().add(methodPane);
 		});
 		Hyperlink methodFromTemplateLink = new Hyperlink("Method from Template (Ctrl+T)");
+		Hyperlink addFeatureLink = new Hyperlink("Add Feature (Ctrl+F)");
 		linkBar.getChildren().addAll(newMethodLink, methodFromTemplateLink);
 				
-		objectContentPane.getChildren().addAll(linkBar, classForm, methodContentPane, buttonBar);
+		objectContentPane.getChildren().addAll(linkBar, classForm, methodScrollPane);
 		
 		objectPane.setCenter(objectContentPane);
 		
@@ -81,23 +95,20 @@ public class ObjectWorkNode implements WorkNode {
 			switch (event.getType()) {
 			case HOT_KEY:
 				HotKeyMessageEvent hotKeyEvent = (HotKeyMessageEvent) event;
-				HotKeyMessage message = hotKeyEvent.getMessage();
-				if (message.getHotKey() == HotKeyMessage.HotKey.CTRL_M) {
+				if (hotKeyEvent.getHotKey() == HotKeyMessageEvent.HotKey.CTRL_M) {
 					Node methodPane = new MethodPane(this.project, 0, new MethodModel());
 					methodContentPane.getChildren().add(methodPane);
 				}
 			}
 		});
 		
-		return objectPane;
+		CodePreviewPane codePreview = new CodePreviewPane(this.classDescriptor);
+		
+		splitPane.getItems().addAll(objectPane, codePreview);
+		splitPane.setOrientation(Orientation.VERTICAL);
+		splitPane.setDividerPositions(0.75);
+		return splitPane;
 	}
-
-	@Override
-	public String getDescription() {
-		return "Object";
-	}
-	
-
 
 
 }

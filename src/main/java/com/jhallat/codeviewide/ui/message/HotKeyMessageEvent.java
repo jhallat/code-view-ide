@@ -1,11 +1,15 @@
 package com.jhallat.codeviewide.ui.message;
 
-public class HotKeyMessageEvent implements MessageEvent<HotKeyMessage> {
+public class HotKeyMessageEvent implements MessageEvent {
 
-	private final HotKeyMessage message;
+	public static enum HotKey {
+		CTRL_M
+	}
 	
-	public HotKeyMessageEvent(HotKeyMessage hotKeyMessage) {
-		this.message = hotKeyMessage;
+	private final HotKey hotKey;
+	
+	public HotKeyMessageEvent(HotKey hotKey) {
+		this.hotKey = hotKey;
 	}
 	
 	@Override
@@ -13,9 +17,8 @@ public class HotKeyMessageEvent implements MessageEvent<HotKeyMessage> {
 		return MessageType.HOT_KEY;
 	}
 
-	@Override
-	public HotKeyMessage getMessage() {
-		return this.message;
+	public HotKey getHotKey() {
+		return this.hotKey;
 	}
 
 	

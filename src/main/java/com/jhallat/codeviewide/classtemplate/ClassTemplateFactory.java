@@ -17,7 +17,7 @@ public class ClassTemplateFactory {
 	
 	public void loadForProject(Project project) {
 		
-		workNodeMap.put("Object", new ObjectWorkNode(project));
+		workNodeMap.put("Class", new ClassWorkNode(project));
 		
 	}
 	
