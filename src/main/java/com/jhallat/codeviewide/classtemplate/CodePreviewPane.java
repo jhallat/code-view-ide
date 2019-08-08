@@ -1,38 +1,57 @@
 package com.jhallat.codeviewide.classtemplate;
 
-import com.jhallat.codeviewide.filesystem.Descriptor;
-import com.jhallat.codeviewide.filesystem.DescriptorListener;
-
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 
-public class CodePreviewPane extends BorderPane implements DescriptorListener {
+public class CodePreviewPane extends BorderPane implements ClassModelListener {
 
 	private final TextArea codePreviewText = new TextArea();
 	
-	public CodePreviewPane(ClassDescriptor classDescriptor) {
+	/**
+	 * 
+	 * @param classModel
+	 */
+	public CodePreviewPane(ClassModel classModel) {
 		super();
 		this.setCenter(codePreviewText);
 		codePreviewText.setFont(Font.font("Courier New"));
 		codePreviewText.setEditable(false);
-		classDescriptor.addListener(this);
+		classModel.addListener(this);
 	}
 
 	@Override
-	public void onModified(Descriptor descriptor) {
+	public void onModified(ClassModel classModel) {
 
-		ClassDescriptor code = (ClassDescriptor) descriptor;
-		StringBuilder codeBuilder = new StringBuilder();
+		var codeBuilder = new StringBuilder();
 		codeBuilder.append("package ");
-		codeBuilder.append(code.getPackageName());
+		codeBuilder.append(classModel.getPackageName());
 		codeBuilder.append(";\n\n");
 		codeBuilder.append("public class ");
-		codeBuilder.append(code.getClassName());
+		codeBuilder.append(classModel.getClassName());
 		codeBuilder.append(" {\n");
+		
+		for (MethodModel method : classModel.getMethods()) {
+			codeBuilder.append("/**\n");
+			String[] lines = method.getDescription().split("\n");
+			for (String line : lines) {
+				codeBuilder.append(" * ").append(line).append("\n");
+			}
+			codeBuilder.append(" * \n");
+			if (!method.getReturnType().equals("void")) {
+				codeBuilder.append(" * @returns ").append(method.getReturnTypeDescription());
+			}
+			codeBuilder.append(" */\n");
+			codeBuilder.append("public ").append(method.getReturnType()).append(" ")
+				.append(method.getName()).append("(");
+			
+			codeBuilder.append(")\n");
+		}
+
 		codeBuilder.append("}");
 		codePreviewText.setText(codeBuilder.toString());
 		
 	}
+	
 	
 }

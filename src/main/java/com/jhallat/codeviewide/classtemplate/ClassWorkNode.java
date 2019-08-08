@@ -38,6 +38,7 @@ public class ClassWorkNode implements WorkNode {
 	@Override
 	public Node createNode() {
 
+		ClassModel classModel = new ClassModel();
 		SplitPane splitPane = new SplitPane();
 		BorderPane objectPane = new BorderPane();
 
@@ -56,11 +57,13 @@ public class ClassWorkNode implements WorkNode {
 		packageText.setPrefWidth(300);
 		packageText.setOnKeyReleased(event -> {
 			this.classDescriptor.setPackageName(packageText.getText());
+			classModel.setPackageName(packageText.getText());
 		});
 		Label classLabel = new Label("Class Name");
 		TextField classText = new TextField();
 		classText.setOnKeyReleased(event -> {
 			this.classDescriptor.setClassName(classText.getText());
+			classModel.setClassName(classText.getText());
 		});
 		classText.setPrefWidth(300);
 
@@ -73,7 +76,7 @@ public class ClassWorkNode implements WorkNode {
 		HBox linkBar = new HBox();
 		Hyperlink newMethodLink = new Hyperlink("New Method (Ctrl+M)");
 		newMethodLink.setOnAction(event -> {
-			Node methodPane = new MethodPane(this.project, 0, new MethodModel());
+			Node methodPane = new MethodPane(this.project, 0, new MethodModel(classModel));
 			methodContentPane.getChildren().add(methodPane);
 		});
 		Hyperlink methodFromTemplateLink = new Hyperlink("Method from Template (Ctrl+T)");
@@ -96,13 +99,13 @@ public class ClassWorkNode implements WorkNode {
 			case HOT_KEY:
 				HotKeyMessageEvent hotKeyEvent = (HotKeyMessageEvent) event;
 				if (hotKeyEvent.getHotKey() == HotKeyMessageEvent.HotKey.CTRL_M) {
-					Node methodPane = new MethodPane(this.project, 0, new MethodModel());
+					Node methodPane = new MethodPane(this.project, 0, new MethodModel(classModel));
 					methodContentPane.getChildren().add(methodPane);
 				}
 			}
 		});
 		
-		CodePreviewPane codePreview = new CodePreviewPane(this.classDescriptor);
+		CodePreviewPane codePreview = new CodePreviewPane(classModel);
 		
 		splitPane.getItems().addAll(objectPane, codePreview);
 		splitPane.setOrientation(Orientation.VERTICAL);

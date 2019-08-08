@@ -3,11 +3,11 @@ package com.jhallat.codeviewide.classtemplate;
 
 
 import com.jhallat.codeviewide.ui.bindings.BindingModel;
+import com.jhallat.codeviewide.ui.bindings.BoundTextArea;
 import com.jhallat.codeviewide.ui.bindings.BoundTextField;
 import com.jhallat.codeviewide.ui.project.Project;
 
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -24,14 +24,13 @@ public class MethodPane extends BorderPane implements ParameterEventHandler {
 	public MethodPane(Project project, int index, MethodModel methodModel) {
 		super();
 		this.index = index;
-		this.methodModel = methodModel;
 		this.project = project;
 		this.getStyleClass().add("method-form");
 		Label methodPreviewLabel = new Label("public void ()");
-		MethodModel model = new MethodModel();
-		BindingModel<MethodModel> bindingModel = new BindingModel<>(model);
+		this.methodModel = methodModel;
+		BindingModel<MethodModel> bindingModel = new BindingModel<>(this.methodModel);
 		bindingModel.setOnModified(event -> {
-			methodPreviewLabel.setText(createMethodPreviewHeading(model));
+			methodPreviewLabel.setText(createMethodPreviewHeading(this.methodModel));
 		});
 
 		VBox methodContent = new VBox();
@@ -51,16 +50,18 @@ public class MethodPane extends BorderPane implements ParameterEventHandler {
 		BoundTextField methodNameText = new BoundTextField();
 		methodNameText.bindModel(bindingModel, "name");
 		
-		TextArea methodDescriptionText = new TextArea();
+		BoundTextArea methodDescriptionText = new BoundTextArea();
 		methodDescriptionText.setPromptText("Description");
 		methodDescriptionText.setPrefRowCount(3);
+		methodDescriptionText.bindModel(bindingModel, "description");
 		Label returnLabel = new Label("Returns");
 		BoundTextField returnText = new BoundTextField();
 		returnText.bindModel(bindingModel, "returnType");
 		returnText.setPromptText("Type");
-		TextField returnDescriptionText = new TextField();
+		BoundTextField returnDescriptionText = new BoundTextField();
 		returnDescriptionText.setPromptText("Description");
 		returnDescriptionText.getStyleClass().add("text-field-large");
+		returnDescriptionText.bindModel(bindingModel, "returnTypeDescription");
 
 		Label parametersLabel = new Label("Parameters");
 		
