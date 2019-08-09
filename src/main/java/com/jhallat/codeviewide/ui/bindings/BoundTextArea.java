@@ -3,9 +3,6 @@ package com.jhallat.codeviewide.ui.bindings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jhallat.deepclasscopy.InvalidPathException;
-import com.jhallat.deepclasscopy.MethodPathInvoker;
-
 import javafx.scene.control.TextArea;
 
 public class BoundTextArea extends TextArea {
@@ -16,13 +13,13 @@ public class BoundTextArea extends TextArea {
 	private String field;
 	
 	public void bindModel(BindingModel<?> model, String field)  {
-		MethodPathInvoker<?> modelInvoker = new MethodPathInvoker<>(model.getValue());
+		MethodInvoker<?> modelInvoker = new MethodInvoker<>(model.getValue());
 		this.model = model;
 		this.field = field;
 		try {
 			String currentValue = modelInvoker.get(field);
 			this.setText(currentValue);
-		} catch (SecurityException | IllegalArgumentException | InvalidPathException exception) {
+		} catch (MethodInvocationException exception) {
 			this.setText("#invalid");
 			log.error("Unabled to bind field " + field, exception );
 		}
@@ -30,7 +27,7 @@ public class BoundTextArea extends TextArea {
 			try {
 				modelInvoker.set(this.field, this.getText());
 				this.model.fireModified();
-			} catch (IllegalArgumentException | InvalidPathException exception) {
+			} catch (MethodInvocationException exception) {
 				log.error("Unabled to bind field " + field, exception );
 			} 
 		});		

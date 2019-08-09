@@ -57,7 +57,7 @@ public class MethodPane extends BorderPane implements ParameterEventHandler {
 		Label returnLabel = new Label("Returns");
 		BoundTextField returnText = new BoundTextField();
 		returnText.bindModel(bindingModel, "returnType");
-		returnText.setPromptText("Type");
+		returnText.setPromptText("void");
 		BoundTextField returnDescriptionText = new BoundTextField();
 		returnDescriptionText.setPromptText("Description");
 		returnDescriptionText.getStyleClass().add("text-field-large");
@@ -73,7 +73,7 @@ public class MethodPane extends BorderPane implements ParameterEventHandler {
 		methodForm.add(returnDescriptionText, 2, 4, 3, 1);
 		methodForm.add(parametersLabel, 0, 5);
 	
-		ParameterModel parameterModel = new ParameterModel();
+		ParameterModel parameterModel = new ParameterModel(methodModel);
 		this.methodModel.addParameter(parameterModel);
 		ParameterPane parameterPane = new ParameterPane(0, parameterModel);
 		parameterPane.setOnParameterEvent(this);
@@ -100,7 +100,7 @@ public class MethodPane extends BorderPane implements ParameterEventHandler {
 		if (parameterEvent.getIndex() == methodModel.getParameters().size() - 1) {
 			ParameterModel eventModel = parameterEvent.getParameterModel();
 			if (!eventModel.isEmpty()) {
-				ParameterModel parameterModel = new ParameterModel();
+				ParameterModel parameterModel = new ParameterModel(methodModel);
 				methodModel.addParameter(parameterModel);
 				ParameterPane parameterPane = new ParameterPane(methodModel.getParameters().size() - 1, parameterModel);
 				parameterPane.setOnParameterEvent(this);

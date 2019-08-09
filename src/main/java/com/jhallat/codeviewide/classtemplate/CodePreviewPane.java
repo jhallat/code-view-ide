@@ -45,6 +45,19 @@ public class CodePreviewPane extends BorderPane implements ClassModelListener {
 			codeBuilder.append("public ").append(method.getReturnType()).append(" ")
 				.append(method.getName()).append("(");
 			
+			boolean multipleParameters = false;
+			for (ParameterModel parameter : method.getParameters()) {
+				if (!parameter.getType().isEmpty()) {
+					if (multipleParameters) {
+						codeBuilder.append(", ");
+					}
+					codeBuilder.append(parameter.getType())
+					           .append(" ")
+					           .append(parameter.getName());
+					multipleParameters = true;
+				}
+			}
+			
 			codeBuilder.append(")\n");
 		}
 

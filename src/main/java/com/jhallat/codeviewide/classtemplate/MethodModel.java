@@ -25,7 +25,7 @@ public class MethodModel {
 	
 	public void addParameter(ParameterModel  parameterModel) {
 		this.parameters.add(parameterModel);
-		parent.fireModified();
+		fireModified();
 	}
 
 	public String getDescription() {
@@ -37,7 +37,7 @@ public class MethodModel {
 
 	public void setDescription(String description) {
 		this.description = description;
-		parent.fireModified();
+		fireModified();
 	}
 
 	public String getName() {
@@ -49,19 +49,19 @@ public class MethodModel {
 
 	public void setName(String name) {
 		this.name = name;
-		parent.fireModified();
+		fireModified();
 	}
 
 	public String getReturnType() {
 		if (returnType == null) {
-			return "void";
+			return "";
 		}
 		return returnType;
 	}
 
 	public void setReturnType(String returnType) {
 		this.returnType = returnType;
-		parent.fireModified();
+		fireModified();
 	}
 	
 	public String getReturnTypeDescription() {
@@ -73,6 +73,10 @@ public class MethodModel {
 
 	public void setReturnTypeDescription(String returnTypeDescription) {
 		this.returnTypeDescription = returnTypeDescription;
+		fireModified();
+	}
+	
+	public void fireModified() {
 		parent.fireModified();
 	}
 }

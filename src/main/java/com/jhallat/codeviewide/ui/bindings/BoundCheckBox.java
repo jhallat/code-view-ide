@@ -3,8 +3,6 @@ package com.jhallat.codeviewide.ui.bindings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jhallat.deepclasscopy.InvalidPathException;
-import com.jhallat.deepclasscopy.MethodPathInvoker;
 
 import javafx.scene.control.CheckBox;
 
@@ -17,13 +15,13 @@ public class BoundCheckBox extends CheckBox {
 	
 	public void bindModel(BindingModel<?> model, String field) {
 		
-		MethodPathInvoker<?> modelInvoker = new MethodPathInvoker<>(model.getValue());
+		MethodInvoker<?> modelInvoker = new MethodInvoker<>(model.getValue());
 		this.model = model;
 		this.field = field;
 		try {
 			Boolean currentValue = modelInvoker.get(field);
 			this.setSelected(currentValue);
-		} catch (InvalidPathException exception) {
+		} catch (MethodInvocationException exception) {
 			this.setSelected(false);
 			log.error("Unabled to bind field " + field, exception );
 		}
@@ -31,7 +29,7 @@ public class BoundCheckBox extends CheckBox {
 			try {
 				modelInvoker.set(this.field, this.isSelected());
 				this.model.fireModified();
-			} catch (IllegalArgumentException | InvalidPathException exception) {
+			} catch (MethodInvocationException exception) {
 				log.error("Unabled to bind field " + field, exception );
 			} 
 		});
