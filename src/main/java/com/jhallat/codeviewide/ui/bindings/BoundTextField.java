@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 public class BoundTextField extends TextField {
 
@@ -23,6 +24,12 @@ public class BoundTextField extends TextField {
 			this.setText("#invalid");
 			log.error("Unabled to bind field " + field, exception );
 		}
+		this.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.ENTER) {
+				event.consume();
+				this.model.fireCommitted();
+			}
+		});
 		this.setOnKeyReleased(event -> {
 			try {
 				modelInvoker.set(this.field, this.getText());

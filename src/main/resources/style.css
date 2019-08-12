@@ -60,6 +60,10 @@
 	-fx-padding: 12px 6px 6px 12px;
 }
 
+.code-form {
+	-fx-padding: 12px 0px 0px 0px;
+}
+
 .method-content {
 	-fx-padding: 12px 0px 0px 0px;
 }

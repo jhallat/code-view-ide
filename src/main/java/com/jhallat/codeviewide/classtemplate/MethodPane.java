@@ -79,7 +79,7 @@ public class MethodPane extends BorderPane implements ParameterEventHandler {
 		parameterPane.setOnParameterEvent(this);
 		parameterForm.getChildren().add(parameterPane);
 		
-		CodeContentPane codeContentPane = new CodeContentPane();
+		CodeContentPane codeContentPane = new CodeContentPane(new CodeModel());
 		
 		methodContent.getChildren().addAll(methodForm, parameterForm, codeContentPane);
 		
