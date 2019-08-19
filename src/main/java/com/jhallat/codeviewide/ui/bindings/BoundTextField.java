@@ -1,19 +1,22 @@
 package com.jhallat.codeviewide.ui.bindings;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
 public class BoundTextField extends TextField {
 
-	private static final Logger log = LoggerFactory.getLogger(BoundTextField.class);
+	private static final Logger log = LogManager.getLogger(BoundTextField.class);
 	
 	private BindingModel<?> model;
 	private String field;
 	
 	public void bindModel(BindingModel<?> model, String field)  {
+		log.debug(field + " bound");
 		MethodInvoker<?> modelInvoker = new MethodInvoker<>(model.getValue());
 		this.model = model;
 		this.field = field;
@@ -25,7 +28,9 @@ public class BoundTextField extends TextField {
 			log.error("Unabled to bind field " + field, exception );
 		}
 		this.setOnKeyPressed(event -> {
-			if (event.getCode() == KeyCode.ENTER) {
+			log.debug("key pressed: "+ event.getCode() + " : " + event.getCharacter());
+			if (event.getCode().equals(KeyCode.ENTER)) {
+				log.debug("Enter pressed");
 				event.consume();
 				this.model.fireCommitted();
 			}

@@ -1,11 +1,10 @@
 package com.jhallat.codeviewide.classtemplate;
 
-import com.jhallat.codeviewide.ui.bindings.BindingModel;
-import com.jhallat.codeviewide.ui.bindings.BoundTextField;
-
+import javafx.application.Platform;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class CodeContentPane extends VBox {
+public class CodeContentPane extends VBox implements CodeLineCommittedEventHandler {
 	
 	private final CodeModel codeModel;
 	
@@ -19,13 +18,24 @@ public class CodeContentPane extends VBox {
 	
 	private void displayCode() {
 		if (codeModel.getCodeElements().isEmpty()) {
-			BoundTextField lineText = new BoundTextField();
-			this.getChildren().add(lineText);
 			CodeLineModel lineModel = new CodeLineModel();
-			BindingModel<CodeLineModel> bindingLineModel = new BindingModel<>(lineModel);
-			lineText.bindModel(bindingLineModel, "content");
-			this.codeModel.addCodeElement(lineModel);
+			CodeLinePane linePane = new CodeLinePane(lineModel, 1, 0);
+			this.getChildren().add(linePane);
+			linePane.setOnCodeLineCommitted(this);
 		}
+	}
+
+
+	@Override
+	public void onCodeLineEvent(CodeLineEvent codeLineEvent) {
+		CodeLineModel lineModel = new CodeLineModel();
+		CodeLinePane linePane = new CodeLinePane(lineModel, 1, 0);
+		VBox.setVgrow(linePane, Priority.ALWAYS);
+		this.getChildren().add(linePane);
+		linePane.setOnCodeLineCommitted(this);
+		Platform.runLater(() -> {
+			linePane.requestFocusOnText();
+		}); 
 	}
 	
 }

@@ -1,6 +1,6 @@
 package com.jhallat.codeviewide.classtemplate;
 
-public interface CodeLineEventHandler {
+public interface CodeLineModifiedEventHandler {
 
 	void onCodeLineEvent(CodeLineEvent codeLineEvent);
 	
