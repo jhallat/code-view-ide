@@ -4,18 +4,18 @@ import com.jhallat.codeviewide.filesystem.Descriptor;
 import com.jhallat.codeviewide.ui.WorkNode;
 import com.jhallat.codeviewide.ui.project.Project;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
-import javafx.scene.Group;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 public class DomainWorkNode implements WorkNode {
 
@@ -32,11 +32,11 @@ public class DomainWorkNode implements WorkNode {
 	@Override
 	public Node createNode() {
 		
-		SplitPane nodePane = new SplitPane();
-		nodePane.setOrientation(Orientation.VERTICAL);
+		BorderPane rootPane = new BorderPane();
+		rootPane.getStyleClass().add("code-pane");
 
 		GridPane descriptionPane = new GridPane();
-		descriptionPane.getStyleClass().add("code-pane");
+		descriptionPane.getStyleClass().add("code-grid");
 		Label descriptionLabel = new Label("Description");
 		TextField descriptionText = new TextField();
 		descriptionText.setPrefWidth(300);
@@ -49,19 +49,21 @@ public class DomainWorkNode implements WorkNode {
 		BorderPane domainPane = new BorderPane();	
 
 		Pane domainDiagram = new Pane();
+		domainDiagram.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 		Hyperlink addEventLink = new Hyperlink("Add Event");
 		addEventLink.setOnAction(event -> {
-			//Node eventText = makeDraggable(new TextField());
-			//domainDiagram.getChildren().add(eventText);
+			DomainEventTag tag = new DomainEventTag();
+			domainDiagram.getChildren().add(tag);
 		});
 
 		domainPane.setTop(addEventLink);
 		domainPane.setCenter(domainDiagram);
 		
-		nodePane.getItems().addAll(descriptionPane, domainPane);
+		rootPane.setTop(descriptionPane);
+		rootPane.setCenter(domainPane);
 		
-		return nodePane;
+		return rootPane;
 	}
 
 	@Override
