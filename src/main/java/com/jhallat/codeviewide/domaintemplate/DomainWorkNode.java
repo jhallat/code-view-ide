@@ -54,7 +54,14 @@ public class DomainWorkNode implements WorkNode, DomainOptionSelectEventHandler 
 
 		Pane domainDiagram = new Pane();
 		domainDiagram.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-
+		domainDiagram.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 2) {
+				System.out.println(event.getX() + ":" + event.getY());
+				DomainEventTag newTag = new DomainEventTag(event.getX(), event.getY());
+				domainDiagram.getChildren().add(newTag);
+			}
+		});
+		
 		var optionBox = new HBox(6);
 		optionBox.getStyleClass().add("option-bar");
 		var defaultCategoryModel = new DomainCategoryModel("Event", Color.ORANGE);
