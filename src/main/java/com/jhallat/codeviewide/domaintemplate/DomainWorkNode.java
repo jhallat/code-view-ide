@@ -27,6 +27,8 @@ public class DomainWorkNode implements WorkNode, DomainOptionSelectEventHandler 
 	private final DomainDescriptor domainDescriptor;
 	private final List<DomainCategoryOption> categoryOptions = new ArrayList<>();
 	
+	private DomainCategoryModel currentOptionModel;
+	
 	public DomainWorkNode(Project project) {
 		this.project = project;
 		this.domainDescriptor = new DomainDescriptor();
@@ -56,8 +58,7 @@ public class DomainWorkNode implements WorkNode, DomainOptionSelectEventHandler 
 		domainDiagram.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		domainDiagram.setOnMouseClicked(event -> {
 			if (event.getClickCount() == 2) {
-				System.out.println(event.getX() + ":" + event.getY());
-				DomainEventTag newTag = new DomainEventTag(event.getX(), event.getY());
+				DomainEventTag newTag = new DomainEventTag(currentOptionModel, event.getX(), event.getY());
 				domainDiagram.getChildren().add(newTag);
 			}
 		});
@@ -66,6 +67,7 @@ public class DomainWorkNode implements WorkNode, DomainOptionSelectEventHandler 
 		optionBox.getStyleClass().add("option-bar");
 		var defaultCategoryModel = new DomainCategoryModel("Event", Color.ORANGE);
 		var defaultCategoryOption = new DomainCategoryOption(defaultCategoryModel, 0);
+		currentOptionModel = defaultCategoryModel;
 		categoryOptions.add(defaultCategoryOption);
 		defaultCategoryOption.setFocus(true);
 		defaultCategoryOption.setOnSelectEventHandler((model, index) -> {
@@ -111,6 +113,7 @@ public class DomainWorkNode implements WorkNode, DomainOptionSelectEventHandler 
 		for (int i = 0; i < categoryOptions.size(); i++) {
 			if (i == index) {
 				categoryOptions.get(i).setFocus(true);
+				this.currentOptionModel = categoryOptions.get(i).getModel();
 			} else {
 				categoryOptions.get(i).setFocus(false);
 			}

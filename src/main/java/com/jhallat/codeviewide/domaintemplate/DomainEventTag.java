@@ -19,13 +19,13 @@ public class DomainEventTag extends Group {
 	private static final int TEXT_X_PADDING = 10;
 	private static final int TEXT_Y_PADDING = 20;
 	
-	public DomainEventTag(double startX, double startY) {
+	public DomainEventTag(DomainCategoryModel categoryModel, double startX, double startY) {
 		super();
 		Group contentGroup = new Group();
 		Rectangle background = new Rectangle();
 		background.setWidth(TAG_WIDTH);
 		background.setHeight(TAG_HEIGHT);
-		background.setFill(Color.ORANGE);
+		background.setFill(categoryModel.getColor());
 		background.setX(startX);
 		background.setY(startY);
 		TextArea editableContentText = new TextArea();

@@ -14,10 +14,13 @@ public class DomainCategoryOption extends Pane {
 	private final Text tagDescription;
 	private DomainOptionSelectEventHandler eventHandler; 
 	
+	private DomainCategoryModel model;
+	
 	private boolean hasFocus;
 	
 	public DomainCategoryOption(DomainCategoryModel model, int index) {
 		super();
+		this.model = model;
 		this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		Rectangle tagColor = new Rectangle();
 		tagColor.setFill(model.getColor());
@@ -37,6 +40,10 @@ public class DomainCategoryOption extends Pane {
 		});
 	}
 
+	public DomainCategoryModel getModel() {
+		return model;
+	}
+	
 	public boolean hasFocus() {
 		return this.hasFocus;
 	}
